@@ -1,20 +1,31 @@
 # HDP repository, objects list
 
+##  HDP Repositories
+
+- http://s3.amazonaws.com/public-repo-1.hortonworks.com/
+
+## How to use
+
 ```sh
-$ ./hdp-repo.py --help
+$ ./hdp-repo.py -h
 Usage: hdp-repo.py [options]
 
 Options:
-  -h, --help  show this help message and exit
-  -l, --list  return list of objects in HDP Amazon S3 bucket
+  -h, --help            show this help message and exit
+  -r REPO_URL, --repo-url=REPO_URL
+                        URL to HDP repository
+  -l, --list            return list of objects in HDP Amazon S3 bucket
+  -f FILTER, --filter=FILTER
+                        filter the list of objects in HDP Amazon S3 bucket
 ```
 
-```sh
-$ ./hdp-repo.py --list 
-{'LastModified': '2013-04-03T19:11:12.000Z', 'ETag': '"8e6f4699784a015da4a79ba18ee37d71"', 'StorageClass': 'STANDARD', 'Key': 'AMBARI-1.x/repos/centos5/AMBARI-1.2.0.1-centos5.tar.gz', 'Size': '40470164'}
-{'LastModified': '2013-04-03T18:55:11.000Z', 'ETag': '"4736e675191a019e52be4620d32f3b88"', 'StorageClass': 'STANDARD', 'Key': 'AMBARI-1.x/repos/centos5/AMBARI-1.x-1.el5.noarch.rpm', 'Size': '2164'}
-{'LastModified': '2013-04-03T18:55:11.000Z', 'ETag': '"e1151532420201fa9bfb509fb1920238"', 'StorageClass': 'STANDARD', 'Key': 'AMBARI-1.x/repos/centos5/RPM-GPG-KEY/RPM-GPG-KEY-Jenkins', 'Size': '1666'}
-{'LastModified': '2013-04-03T18:55:11.000Z', 'ETag': '"d3b39e60b9a198423d0a8729d8d59132"', 'StorageClass': 'STANDARD', 'Key': 'AMBARI-1.x/repos/centos5/ambari.repo', 'Size': '539'}
-{'LastModified': '2013-04-03T18:55:11.000Z', 'ETag': '"11d3d10000079565c6680724cdb4419c"', 'StorageClass': 'STANDARD', 'Key': 'AMBARI-1.x/repos/centos5/build_metadata.txt', 'Size': '182'}
-...
+## The sample output for listing HDP repository
+
+```json
+{"LastModified": "2012-04-24T02:03:52.000Z", "ETag": "\"bcab5263db7f547ddb9a506aeb073f13\"", "StorageClass": "STANDARD", "Key": "HDP-1.0.7/repos/centos6/ganglia/ganglia-debuginfo-3.2.0-99.x86_64.rpm", "Size": "367124"}
+{"LastModified": "2012-04-24T02:03:53.000Z", "ETag": "\"4cec16134fe53b641c4927222c276656\"", "StorageClass": "STANDARD", "Key": "HDP-1.0.7/repos/centos6/ganglia/ganglia-devel-3.2.0-99.x86_64.rpm", "Size": "48660"}
+{"LastModified": "2012-04-24T02:03:54.000Z", "ETag": "\"9bbaa23e20057fd3f7d2019c55b7c015\"", "StorageClass": "STANDARD", "Key": "HDP-1.0.7/repos/centos6/ganglia/ganglia-gmetad-3.2.0-99.x86_64.rpm", "Size": "36976"}
+{"LastModified": "2012-04-24T02:03:54.000Z", "ETag": "\"5b803bfe730dfc38c8aa2e63e5423d6e\"", "StorageClass": "STANDARD", "Key": "HDP-1.0.7/repos/centos6/ganglia/ganglia-gmetad-python-3.2.0-99.x86_64.rpm", "Size": "57436"}
+{"LastModified": "2012-04-24T02:03:54.000Z", "ETag": "\"db9856e3f4ae2a26470d2367782412c4\"", "StorageClass": "STANDARD", "Key": "HDP-1.0.7/repos/centos6/ganglia/ganglia-gmond-3.2.0-99.x86_64.rpm", "Size": "103468"}
 ```
+

@@ -3,6 +3,7 @@
 #   Hortonworks Repository tool
 #
 
+import re
 import sys
 import json
 import requests
@@ -10,8 +11,6 @@ import urlparse
 
 from xml.etree import ElementTree
 
-
-HDP_REPO_URL="http://s3.amazonaws.com/public-repo-1.hortonworks.com/"
 
 def remove_namespace(tag):
 
@@ -30,7 +29,7 @@ def get_response(url):
     return ElementTree.fromstring(resp.content)
 
 
-def list_objects(url, marker=None):
+def list_objects(url, marker=None, filters=None):
 
     truncated = False
 
@@ -51,10 +50,11 @@ def list_objects(url, marker=None):
             obj[tag_name] = xml_field.text
             if tag_name == 'Key':
                 marker = xml_field.text
-        yield obj
+        if filters == None or filters.search(obj['Key']):
+            yield obj
 
     if marker and truncated:
-        for obj in list_objects(url, marker):
+        for obj in list_objects(url, marker, filters):
             yield obj
 
 
@@ -63,14 +63,26 @@ if __name__ == '__main__':
     import optparse
 
     parser = optparse.OptionParser()
+
+    parser.add_option('-r', '--repo-url', help='URL to HDP repository (Amazon S3 bucket)')    
     parser.add_option('-l', '--list', action="store_true", help='return list of objects in HDP Amazon S3 bucket')
+    parser.add_option('-f', '--filter', help='filter the list of objects in HDP Amazon S3 bucket')
 
     (opts, args) = parser.parse_args()
+
+    if not opts.repo_url:
+        print >> sys.stderr, "[ERROR] Please specify HDP repository URL"
+        sys.exit(1)
+
+    filters = None
+    if opts.filter:
+        filters = re.compile(opts.filter)
+
 
     if opts.list:
 
         try:
-            for obj in list_objects(HDP_REPO_URL):
-                print obj
+            for obj in list_objects(opts.repo_url, filters=filters):
+                print json.dumps(obj)
         except KeyboardInterrupt:
             pass
